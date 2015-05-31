@@ -30,48 +30,48 @@ function emitter.new(...)
 end
 
 function emitter:update()
-  rand = math.random
-  cos, sin = math.cos, math.sin
+  local rand = math.random
+  local cos, sin = math.cos, math.sin
   self.emit_dt = self.emit_dt + 1
   
   if self.emit_dt > self.emit_t then
     for i = 1, self.pps do
-    self.enum = self.enum + 1
-	self.emit_dt = 0
-	self.obj[self.enum] = {}
-	self.obj[self.enum].x = self.x
-	self.obj[self.enum].y = self.y
-	self.obj[self.enum].a = self.a + rand()*self.spread-(self.spread*.5)
-	self.obj[self.enum].min_s = self.min_s
-    self.obj[self.enum].s = self.min_s + rand()*(self.s-self.min_s)
-	self.obj[self.enum].xd = cos(self.obj[self.enum].a)*self.obj[self.enum].s
-	self.obj[self.enum].yd = sin(self.obj[self.enum].a)*self.obj[self.enum].s
-	self.obj[self.enum].acc_a = self.acc_a
-	self.obj[self.enum].acc_s = self.acc_s
-	self.obj[self.enum].dt = 0
-	self.obj[self.enum].t = self.part_t
-	self.obj[self.enum].diam = self.diam
-	self.obj[self.enum].scale = self.scale
-	self.obj[self.enum].tang_d = self.tang_d
-	self.obj[self.enum].color = {255,255,255,255}
-	self.obj[self.enum].fric = self.fric
-
+      self.enum = self.enum + 1
+      self.emit_dt = 0
+      self.obj[self.enum] = {}
+      self.obj[self.enum].x = self.x
+      self.obj[self.enum].y = self.y
+      self.obj[self.enum].a = self.a + rand()*self.spread-(self.spread*.5)
+      self.obj[self.enum].min_s = self.min_s
+      self.obj[self.enum].s = self.min_s + rand()*(self.s-self.min_s)
+      self.obj[self.enum].xd = cos(self.obj[self.enum].a)*self.obj[self.enum].s
+      self.obj[self.enum].yd = sin(self.obj[self.enum].a)*self.obj[self.enum].s
+      self.obj[self.enum].acc_a = self.acc_a
+      self.obj[self.enum].acc_s = self.acc_s
+      self.obj[self.enum].dt = 0
+      self.obj[self.enum].t = self.part_t
+      self.obj[self.enum].diam = self.diam
+      self.obj[self.enum].scale = self.scale
+      self.obj[self.enum].tang_d = self.tang_d
+      self.obj[self.enum].color = {255,255,255,255}
+      self.obj[self.enum].fric = self.fric
     end
   end
+  
   local x, y
   
   for k = 1, self.enum do
     self.obj[k].dt = self.obj[k].dt + 1
-	if self.obj[k].dt > self.obj[k].t then
-	  self.obj[k] = self.obj[self.enum]
-	  self.enum = self.enum - 1
-	end
+	  if self.obj[k].dt > self.obj[k].t then
+	    self.obj[k] = self.obj[self.enum]
+	    self.enum = self.enum - 1
+	  end
 	
     self.obj[k].xd = self.obj[k].xd + cos(self.obj[k].acc_a)*self.obj[k].acc_s
     self.obj[k].yd = self.obj[k].yd + sin(self.obj[k].acc_a)*self.obj[k].acc_s
     self.obj[k].x = self.obj[k].x + self.obj[k].xd
-	self.obj[k].y = self.obj[k].y + self.obj[k].yd
-	addFriction(self.obj[k])
+	  self.obj[k].y = self.obj[k].y + self.obj[k].yd
+	  addFriction(self.obj[k])
   end
   return self
 end
@@ -84,7 +84,7 @@ function addFriction(obj)
     obj.yd = obj.yd - math.sin(a) * obj.fric
   else
     obj.xd = 0
-	obj.yd = 0
+	  obj.yd = 0
   end
 end
 
@@ -93,16 +93,13 @@ function emitter:draw()
   local cy = camera.y
   local rr,rg,rb,ra = love.graphics.getColor()
 
-  --love.graphics.setBlendMode("additive")
   local c = self.color
   self.part_batch:setColor(c)
 
-  --self.part_batch:clear()
   for k = 1, self.enum do
 	  self.id = emitter.part_batch:add(self.obj[k].x-cx, self.obj[k].y-cy,0,(1-self.obj[k].dt/self.obj[k].t)*self.obj[k].scale,(1-self.obj[k].dt/self.obj[k].t)*self.obj[k].scale,16,16)
   end
-  --love.graphics.draw(self.part_batch,0,0)
-  --love.graphics.setBlendMode("alpha")
+  
   love.graphics.setColor(rr,rg,rb,ra)
 end
 
@@ -110,7 +107,7 @@ end
 function emitter.drawAll()
   love.graphics.setBlendMode("additive")
   love.graphics.draw(emitter.part_batch,0,0)
-    love.graphics.setBlendMode("alpha")
+  love.graphics.setBlendMode("alpha")
 end
 function emitter:burst()
   
