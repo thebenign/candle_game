@@ -62,10 +62,10 @@ function emitter:update()
   
   for k = 1, self.enum do
     self.obj[k].dt = self.obj[k].dt + 1
-	  if self.obj[k].dt > self.obj[k].t then
-	    self.obj[k] = self.obj[self.enum]
-	    self.enum = self.enum - 1
-	  end
+    if self.obj[k].dt > self.obj[k].t then
+      self.obj[k] = self.obj[self.enum]
+      self.enum = self.enum - 1
+    end
 	
     self.obj[k].xd = self.obj[k].xd + cos(self.obj[k].acc_a)*self.obj[k].acc_s
     self.obj[k].yd = self.obj[k].yd + sin(self.obj[k].acc_a)*self.obj[k].acc_s
