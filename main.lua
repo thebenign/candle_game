@@ -7,8 +7,8 @@ require "alias"
 emitter = require "emitter_class"
 require "dialog"
 require "sfx"
+require "object.objects"
 
-require "objects"
 
 function love.load(arg)
   

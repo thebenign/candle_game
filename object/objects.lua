@@ -2,10 +2,10 @@
 --[[ Super Generic Game Object Library ]]--
 -------------------------------------------
 
-visible = require "draw"
-phys = require "physics"
-collider = require "collidoscope"
-controller = require "controls"
+visible = require "object.draw"
+phys = require "object.physics"
+collider = require "object.collidoscope"
+controller = require "object.controls"
 
 function camera:isOnCamera()
   if self.x+self.w > camera.x and self.x < camera.x+camera.w and self.y+self.h > camera.y and self.y < camera.y+camera.h then return true end
