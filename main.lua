@@ -8,13 +8,14 @@ emitter = require "emitter_class"
 require "dialog"
 require "sfx"
 require "object.objects"
+require "rain"
 
 
 function love.load(arg)
   
   if arg[#arg] == "-debug" then require("mobdebug").start() end -- Debugging module from zerobrane
   
-  love.window.setMode(1300,800,{fullscreen=false,vsync=false,resizable=false})
+  love.window.setMode(1300,800,{fullscreen=false,vsync=false,resizable=true})
   love.graphics.setBackgroundColor(30,200,255)
   
   camera.load() -- Always call load function after setting screen rez so camera can resize apropriately
@@ -46,6 +47,8 @@ function love.load(arg)
   hero.emitter:setAccelSpeed(.01)
   
   camera.follow(hero)
+  
+  --rain.init()
 end
 
 function love.update(dt)
@@ -61,6 +64,8 @@ function love.update(dt)
     hero.emitter.y = hero.y+6
     camera.update()
     dialog.update()
+    
+    rain.update()
     
     t.dt = t.dt - t.step_time
     
@@ -81,6 +86,8 @@ function love.resize()
     emitter.part_batch:clear()
     hero.emitter:draw()
     emitter:drawAll()
+    rain.draw()
+    
     dialog.draw()
     lg.print(tostring(love.timer.getFPS()),30,30)
   end
@@ -108,7 +115,7 @@ function love.keypressed(key, isrepeat)
       dialog.display({dialog.rnd_text()})
     end
 end
-    
+
   function move(obj)
     if obj.xd > obj.max_speed then obj.xd = obj.max_speed end
     if obj.xd < -obj.max_speed then obj.xd = -obj.max_speed end

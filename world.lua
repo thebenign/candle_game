@@ -1,0 +1,7 @@
+-- world
+
+world = {}
+
+world.room = {}
+
+
